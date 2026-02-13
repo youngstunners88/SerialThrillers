@@ -4,178 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Serial Thriller Bookstore | Dave's Collectibles</title>
-    <!-- Google Fonts for a classic bookstore feel -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #1a1a1a;
-            --accent-color: #8b0000; /* Thriller Red */
+            --accent-color: #8b0000;
             --text-light: #f4f4f4;
             --text-dark: #333;
             --cream: #fffaf0;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--cream);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
+        body { font-family: 'Roboto', sans-serif; background-color: var(--cream); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
-        /* Navigation */
-        nav {
-            background: var(--primary-color);
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-around;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
+        /* Nav */
+        nav { background: var(--primary-color); padding: 1rem; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-around; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        nav a { color: white; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        /* Hero */
+        header { text-align: center; padding: 80px 20px; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.imgur.com/mzMIuQh.jpeg'); background-size: cover; background-position: center; color: white; }
+        .logo-main { max-width: 220px; border-radius: 50%; border: 4px solid var(--accent-color); margin-bottom: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 
-        /* Hero Section */
-        header {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.imgur.com/mzMIuQh.jpeg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-        }
+        /* Gallery */
+        .section-title { text-align: center; margin: 40px 0 20px; font-size: 2.2rem; color: var(--primary-color); }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        .gallery img { width: 100%; height: 280px; object-fit: cover; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: 0.3s; }
+        .gallery img:hover { transform: scale(1.02); }
 
-        .logo-main {
-            max-width: 250px;
-            border-radius: 50%;
-            border: 4px solid var(--accent-color);
-            margin-bottom: 20px;
-            transition: transform 0.3s;
-        }
+        /* Marketplace Portal */
+        .marketplace { background: #f0f0f0; padding: 60px 15px; }
+        .portal-card { max-width: 600px; margin: 0 auto 40px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 5px solid var(--accent-color); }
+        .portal-card h3 { margin-bottom: 15px; text-align: center; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.9rem; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; }
+        
+        .btn-submit { width: 100%; padding: 12px; background: var(--accent-color); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-submit:hover { background: #5e0000; }
 
-        .logo-main:hover { transform: scale(1.05); }
+        .chat-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .blog-post { background: white; padding: 15px; border-radius: 10px; display: flex; gap: 15px; box-shadow: 0 3px 6px rgba(0,0,0,0.05); animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .post-img { width: 120px; height: 120px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: #eee; }
+        .post-content { flex-grow: 1; }
+        .post-content h4 { color: var(--accent-color); margin-bottom: 5px; font-size: 1.2rem; }
+        .post-content .price { font-weight: bold; color: #2e7d32; display: block; margin: 5px 0; }
+        .post-content .contact { font-size: 0.85rem; color: #666; font-style: italic; }
 
-        /* Gallery Section */
-        .section-title {
-            text-align: center;
-            margin: 40px 0;
-            font-size: 2.5rem;
-            color: var(--primary-color);
-        }
+        /* Contact */
+        #contact { padding: 60px 20px; text-align: center; background: var(--primary-color); color: white; }
+        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); text-decoration: none; z-index: 1000; }
 
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .gallery img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .gallery img:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
-
-        /* Marketplace Section */
-        .marketplace {
-            background: #eee;
-            padding: 50px 20px;
-        }
-
-        .chat-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .chat-header {
-            background: var(--primary-color);
-            color: white;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .blog-post {
-            padding: 20px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            gap: 20px;
-        }
-
-        .post-img { width: 100px; height: 100px; border-radius: 10px; object-fit: cover; }
-
-        .post-content h4 { color: var(--accent-color); margin-bottom: 5px; }
-
-        .btn-post {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 12px;
-            background: var(--accent-color);
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-        }
-
-        /* Contact Section */
-        #contact {
-            padding: 50px 20px;
-            text-align: center;
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .contact-info { margin: 20px 0; font-size: 1.1rem; }
-
-        .whatsapp-float {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #25d366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-            text-decoration: none;
-            z-index: 1000;
-        }
-
-        footer { text-align: center; padding: 20px; font-size: 0.8rem; background: #111; color: #777; }
-
-        /* Mobile Adjustments */
         @media (max-width: 600px) {
-            .section-title { font-size: 1.8rem; }
             .blog-post { flex-direction: column; }
             .post-img { width: 100%; height: 200px; }
+            .section-title { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -191,77 +77,122 @@
     <header id="home">
         <img src="https://i.imgur.com/eWGbb9i.jpeg" alt="Serial Thriller Logo" class="logo-main">
         <h1>Serial Thriller Bookstore</h1>
-        <p>Est. 2018 | Curating Classics & Rare Collectibles</p>
+        <p>Est. 2018 | Johannesberg's Finest Collectibles</p>
     </header>
 
     <section id="classics">
-        <h2 class="section-title">Classics & Collectibles</h2>
+        <h2 class="section-title">The Collection</h2>
         <div class="gallery">
-            <img src="https://i.imgur.com/ILcYTz8.jpeg" alt="Store Item">
-            <img src="https://i.imgur.com/9I5cAbo.jpeg" alt="Store Item">
-            <img src="https://i.imgur.com/Qfs6gQg.jpeg" alt="Store Item">
-            <img src="https://i.imgur.com/mzMIuQh.jpeg" alt="Store Item">
-            <img src="https://i.imgur.com/qldpNY6.jpeg" alt="Store Item">
-            <img src="https://i.imgur.com/Aestkur.jpeg" alt="Store Item">
-            <img src="https://i.imgur.com/YpaTO7O.jpeg" alt="Store Item">
-            <img src="https://i.imgur.com/7ykae84.jpeg" alt="Store Item">
+            <img src="https://i.imgur.com/ILcYTz8.jpeg" alt="Item">
+            <img src="https://i.imgur.com/9I5cAbo.jpeg" alt="Item">
+            <img src="https://i.imgur.com/Qfs6gQg.jpeg" alt="Item">
+            <img src="https://i.imgur.com/mzMIuQh.jpeg" alt="Item">
+            <img src="https://i.imgur.com/qldpNY6.jpeg" alt="Item">
+            <img src="https://i.imgur.com/Aestkur.jpeg" alt="Item">
+            <img src="https://i.imgur.com/YpaTO7O.jpeg" alt="Item">
+            <img src="https://i.imgur.com/7ykae84.jpeg" alt="Item">
+            <!-- New Images Added Below -->
+            <img src="https://i.imgur.com/JsGGP36.jpeg" alt="Item">
+            <img src="https://i.imgur.com/0Vpdmz7.jpeg" alt="Item">
         </div>
     </section>
 
     <section id="marketplace" class="marketplace">
-        <h2 class="section-title">Community Marketplace</h2>
-        <p style="text-align:center; margin-bottom: 20px;">Secondhand items & collectibles from our community.</p>
+        <h2 class="section-title">Community Trade Portal</h2>
         
-        <div class="chat-container">
-            <div class="chat-header">Live Feed</div>
-            
-            <!-- Sample Post 1 -->
+        <!-- Upload Portal -->
+        <div class="portal-card">
+            <h3>List Your Item</h3>
+            <div class="form-group">
+                <label>Item Name</label>
+                <input type="text" id="itemName" placeholder="e.g. Vintage Sherlock Holmes">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="itemDesc" rows="2" placeholder="Tell us about it..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Price (R)</label>
+                <input type="text" id="itemPrice" placeholder="e.g. 250">
+            </div>
+            <div class="form-group">
+                <label>Your Phone Number</label>
+                <input type="text" id="itemPhone" placeholder="e.g. 082 123 4567">
+            </div>
+            <div class="form-group">
+                <label>Upload Image URL</label>
+                <input type="text" id="itemImg" placeholder="Paste an image link here">
+                <small style="color: #666; font-size: 0.7rem;">Tip: Upload to Imgur and paste link here.</small>
+            </div>
+            <button class="btn-submit" onclick="addPost()">Post to Marketplace</button>
+        </div>
+
+        <!-- Live Feed -->
+        <div class="chat-container" id="feed">
+            <!-- Example Static Post -->
             <div class="blog-post">
                 <img src="https://i.imgur.com/9I5cAbo.jpeg" class="post-img" alt="Item">
                 <div class="post-content">
-                    <h4>First Edition: The Big Sleep</h4>
-                    <p>Beautiful condition, hardback. A must-have for thriller fans.</p>
-                    <p><strong>Price:</strong> R450</p>
-                    <small>Contact: Sarah - 072 445 1123</small>
+                    <h4>Classic Thriller Omnibus</h4>
+                    <p>Includes 3 rare novels from the 1950s. Hardcover.</p>
+                    <span class="price">Price: R350</span>
+                    <span class="contact">Seller Contact: 081 332 2109</span>
                 </div>
             </div>
-
-            <!-- Sample Post 2 -->
-            <div class="blog-post">
-                <img src="https://i.imgur.com/mzMIuQh.jpeg" class="post-img" alt="Item">
-                <div class="post-content">
-                    <h4>Vintage Brass Bookends</h4>
-                    <p>Heavy, antique style. Perfect for a classic library look.</p>
-                    <p><strong>Price:</strong> R300</p>
-                    <small>Contact: Mike - 083 221 9988</small>
-                </div>
-            </div>
-
-            <a href="https://wa.me/27813322109?text=Hi%20Dave!%20I'd%20like%20to%20list%20an%20item%20on%20Serial%20Thriller.%20[Item%20Name,%20Price,%20Contact]" class="btn-post">Post Your Item</a>
         </div>
     </section>
 
     <section id="contact">
-        <h2>Visit Dave at the Shop</h2>
-        <div class="contact-info">
-            <p>📍 Johannesberg Botanical Gardens</p>
-            <p>45 Thomas Bowler St, Emmarentia, Randburg, 2000</p>
-            <p>📞 081 332 2109</p>
-            <br>
-            <a href="https://maps.app.goo.gl/cdUT5zpKuhiSUDB6A" target="_blank" style="color: var(--accent-color); font-weight: bold;">Open in Google Maps</a>
-        </div>
+        <h2>Find Dave</h2>
+        <p>Johannesberg Botanical Gardens, 45 Thomas Bowler St</p>
+        <p>Emmarentia, Randburg, 2000</p>
+        <p><strong>Cell:</strong> 081 332 2109</p>
+        <br>
+        <a href="https://maps.app.goo.gl/cdUT5zpKuhiSUDB6A" target="_blank" style="color: #ff4d4d;">View on Google Maps</a>
     </section>
 
-    <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/27813322109" class="whatsapp-float" target="_blank">
-        <svg viewBox="0 0 32 32" style="width:35px; height:35px; fill:white; margin-top:12px">
-            <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.48 2.025 7.787l-2.025 7.388 7.555-1.983c2.35 1.229 5.035 1.925 7.882 1.925 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.288c-2.43 0-4.722-0.627-6.726-1.724l-0.481-0.264-4.475 1.174 1.196-4.364-0.29-0.461c-1.189-1.89-1.815-4.1-1.815-6.424 0-6.736 5.481-12.217 12.217-12.217s12.217 5.481 12.217 12.217c0 6.736-5.481 12.217-12.217 12.217zM22.569 19.162c-0.359-0.18-2.126-1.049-2.454-1.168s-0.569-0.18-0.808 0.18c-0.239 0.359-0.927 1.168-1.136 1.408s-0.419 0.269-0.778 0.09c-0.359-0.18-1.516-0.558-2.887-1.781-1.066-0.951-1.786-2.126-1.996-2.485s-0.022-0.554 0.157-0.732c0.161-0.161 0.359-0.419 0.538-0.628s0.239-0.359 0.359-0.598c0.12-0.239 0.06-0.449-0.03-0.628s-0.808-1.946-1.107-2.664c-0.291-0.7-0.59-0.605-0.808-0.616s-0.478-0.012-0.737-0.012c-0.259 0-0.681 0.097-1.036 0.478s-1.357 1.328-1.357 3.235c0 1.907 1.387 3.748 1.581 4.017s2.73 4.167 6.613 5.842c0.924 0.399 1.645 0.638 2.207 0.817 0.928 0.295 1.773 0.253 2.441 0.153 0.745-0.111 2.291-0.937 2.615-1.841s0.324-1.676 0.227-1.841c-0.097-0.165-0.359-0.269-0.718-0.449z"></path>
-        </svg>
+        <svg viewBox="0 0 32 32" style="width:30px; fill:white;"><path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.48 2.025 7.787l-2.025 7.388 7.555-1.983c2.35 1.229 5.035 1.925 7.882 1.925 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.288c-2.43 0-4.722-0.627-6.726-1.724l-0.481-0.264-4.475 1.174 1.196-4.364-0.29-0.461c-1.189-1.89-1.815-4.1-1.815-6.424 0-6.736 5.481-12.217 12.217-12.217s12.217 5.481 12.217 12.217c0 6.736-5.481 12.217-12.217 12.217zM22.569 19.162c-0.359-0.18-2.126-1.049-2.454-1.168s-0.569-0.18-0.808 0.18c-0.239 0.359-0.927 1.168-1.136 1.408s-0.419 0.269-0.778 0.09c-0.359-0.18-1.516-0.558-2.887-1.781-1.066-0.951-1.786-2.126-1.996-2.485s-0.022-0.554 0.157-0.732c0.161-0.161 0.359-0.419 0.538-0.628s0.239-0.359 0.359-0.598c0.12-0.239 0.06-0.449-0.03-0.628s-0.808-1.946-1.107-2.664c-0.291-0.7-0.59-0.605-0.808-0.616s-0.478-0.012-0.737-0.012c-0.259 0-0.681 0.097-1.036 0.478s-1.357 1.328-1.357 3.235c0 1.907 1.387 3.748 1.581 4.017s2.73 4.167 6.613 5.842c0.924 0.399 1.645 0.638 2.207 0.817 0.928 0.295 1.773 0.253 2.441 0.153 0.745-0.111 2.291-0.937 2.615-1.841s0.324-1.676 0.227-1.841c-0.097-0.165-0.359-0.269-0.718-0.449z"></path></svg>
     </a>
 
-    <footer>
-        <p>&copy; 2026 Serial Thriller Bookstore. All rights reserved.</p>
-    </footer>
+    <script>
+        function addPost() {
+            const name = document.getElementById('itemName').value;
+            const desc = document.getElementById('itemDesc').value;
+            const price = document.getElementById('itemPrice').value;
+            const phone = document.getElementById('itemPhone').value;
+            const img = document.getElementById('itemImg').value || 'https://via.placeholder.com/150';
 
+            if(!name || !price || !phone) {
+                alert("Please fill in Name, Price, and Phone Number!");
+                return;
+            }
+
+            const feed = document.getElementById('feed');
+            const newPost = document.createElement('div');
+            newPost.className = 'blog-post';
+            
+            newPost.innerHTML = `
+                <img src="${img}" class="post-img" alt="Item">
+                <div class="post-content">
+                    <h4>${name}</h4>
+                    <p>${desc}</p>
+                    <span class="price">Price: R${price}</span>
+                    <span class="contact">Seller Contact: ${phone}</span>
+                </div>
+            `;
+
+            feed.prepend(newPost);
+
+            // Clear form
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemDesc').value = '';
+            document.getElementById('itemPrice').value = '';
+            document.getElementById('itemPhone').value = '';
+            document.getElementById('itemImg').value = '';
+            
+            alert("Success! Your item is now listed below.");
+        }
+    </script>
 </body>
 </html>
