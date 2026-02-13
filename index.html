@@ -2,197 +2,701 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serial Thriller Bookstore | Dave's Collectibles</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #1a1a1a;
-            --accent-color: #8b0000;
-            --text-light: #f4f4f4;
-            --text-dark: #333;
-            --cream: #fffaf0;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Serial Thrillers Bookstore</title>
+    <meta name="description" content="Serial Thrillers Bookstore - Est 2018. Thrillers, Classics, Collectibles & Comics in Emmarentia.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'thriller-red': '#b91c1c',
+                        'thriller-black': '#1a1a1a',
+                        'paper': '#f5f5f4',
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+                        sans: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-down': 'fadeInDown 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                    },
+                    keyframes: {
+                        fadeInDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
         }
+    </script>
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Roboto', sans-serif; background-color: var(--cream); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; }
-
-        /* Nav */
-        nav { background: var(--primary-color); padding: 1rem; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-around; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        nav a { color: white; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
-
-        /* Hero */
-        header { text-align: center; padding: 80px 20px; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.imgur.com/mzMIuQh.jpeg'); background-size: cover; background-position: center; color: white; }
-        .logo-main { max-width: 220px; border-radius: 50%; border: 4px solid var(--accent-color); margin-bottom: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-
-        /* Gallery */
-        .section-title { text-align: center; margin: 40px 0 20px; font-size: 2.2rem; color: var(--primary-color); }
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: 0 auto; }
-        .gallery img { width: 100%; height: 280px; object-fit: cover; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: 0.3s; }
-        .gallery img:hover { transform: scale(1.02); }
-
-        /* Marketplace Portal */
-        .marketplace { background: #f0f0f0; padding: 60px 15px; }
-        .portal-card { max-width: 600px; margin: 0 auto 40px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 5px solid var(--accent-color); }
-        .portal-card h3 { margin-bottom: 15px; text-align: center; }
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f5f4;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b91c1c;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #991b1b;
+        }
         
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.9rem; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; }
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
         
-        .btn-submit { width: 100%; padding: 12px; background: var(--accent-color); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-submit:hover { background: #5e0000; }
-
-        .chat-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
-        .blog-post { background: white; padding: 15px; border-radius: 10px; display: flex; gap: 15px; box-shadow: 0 3px 6px rgba(0,0,0,0.05); animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Image loading placeholder */
+        .image-placeholder {
+            background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+            background-size: 200% 100%;
+            animation: shine 1.5s linear infinite;
+        }
         
-        .post-img { width: 120px; height: 120px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: #eee; }
-        .post-content { flex-grow: 1; }
-        .post-content h4 { color: var(--accent-color); margin-bottom: 5px; font-size: 1.2rem; }
-        .post-content .price { font-weight: bold; color: #2e7d32; display: block; margin: 5px 0; }
-        .post-content .contact { font-size: 0.85rem; color: #666; font-style: italic; }
-
-        /* Contact */
-        #contact { padding: 60px 20px; text-align: center; background: var(--primary-color); color: white; }
-        .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); text-decoration: none; z-index: 1000; }
-
-        @media (max-width: 600px) {
-            .blog-post { flex-direction: column; }
-            .post-img { width: 100%; height: 200px; }
-            .section-title { font-size: 1.8rem; }
+        @keyframes shine {
+            to {
+                background-position-x: -200%;
+            }
         }
     </style>
 </head>
-<body>
+<body class="bg-paper text-thriller-black font-sans antialiased selection:bg-thriller-red selection:text-white">
+    <div id="root"></div>
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#classics">Classics</a>
-        <a href="#marketplace">Marketplace</a>
-        <a href="#contact">Contact</a>
-    </nav>
-
-    <header id="home">
-        <img src="https://i.imgur.com/eWGbb9i.jpeg" alt="Serial Thriller Logo" class="logo-main">
-        <h1>Serial Thriller Bookstore</h1>
-        <p>Est. 2018 | Johannesberg's Finest Collectibles</p>
-    </header>
-
-    <section id="classics">
-        <h2 class="section-title">The Collection</h2>
-        <div class="gallery">
-            <img src="https://i.imgur.com/ILcYTz8.jpeg" alt="Item">
-            <img src="https://i.imgur.com/9I5cAbo.jpeg" alt="Item">
-            <img src="https://i.imgur.com/Qfs6gQg.jpeg" alt="Item">
-            <img src="https://i.imgur.com/mzMIuQh.jpeg" alt="Item">
-            <img src="https://i.imgur.com/qldpNY6.jpeg" alt="Item">
-            <img src="https://i.imgur.com/Aestkur.jpeg" alt="Item">
-            <img src="https://i.imgur.com/YpaTO7O.jpeg" alt="Item">
-            <img src="https://i.imgur.com/7ykae84.jpeg" alt="Item">
-            <!-- New Images Added Below -->
-            <img src="https://i.imgur.com/JsGGP36.jpeg" alt="Item">
-            <img src="https://i.imgur.com/0Vpdmz7.jpeg" alt="Item">
-        </div>
-    </section>
-
-    <section id="marketplace" class="marketplace">
-        <h2 class="section-title">Community Trade Portal</h2>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
         
-        <!-- Upload Portal -->
-        <div class="portal-card">
-            <h3>List Your Item</h3>
-            <div class="form-group">
-                <label>Item Name</label>
-                <input type="text" id="itemName" placeholder="e.g. Vintage Sherlock Holmes">
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                <textarea id="itemDesc" rows="2" placeholder="Tell us about it..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Price (R)</label>
-                <input type="text" id="itemPrice" placeholder="e.g. 250">
-            </div>
-            <div class="form-group">
-                <label>Your Phone Number</label>
-                <input type="text" id="itemPhone" placeholder="e.g. 082 123 4567">
-            </div>
-            <div class="form-group">
-                <label>Upload Image URL</label>
-                <input type="text" id="itemImg" placeholder="Paste an image link here">
-                <small style="color: #666; font-size: 0.7rem;">Tip: Upload to Imgur and paste link here.</small>
-            </div>
-            <button class="btn-submit" onclick="addPost()">Post to Marketplace</button>
-        </div>
+        // Initialize Lucide icons after render
+        const useLucide = () => {
+            useEffect(() => {
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            });
+        };
 
-        <!-- Live Feed -->
-        <div class="chat-container" id="feed">
-            <!-- Example Static Post -->
-            <div class="blog-post">
-                <img src="https://i.imgur.com/9I5cAbo.jpeg" class="post-img" alt="Item">
-                <div class="post-content">
-                    <h4>Classic Thriller Omnibus</h4>
-                    <p>Includes 3 rare novels from the 1950s. Hardcover.</p>
-                    <span class="price">Price: R350</span>
-                    <span class="contact">Seller Contact: 081 332 2109</span>
+        // View State Enum
+        const ViewState = {
+            HOME: 'HOME',
+            GALLERY: 'GALLERY',
+            MARKETPLACE: 'MARKETPLACE',
+            CONTACT: 'CONTACT'
+        };
+
+        // --- Components ---
+
+        // 1. Navbar Component
+        const Navbar = ({ currentView, onChangeView }) => {
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+            useLucide();
+
+            const navItems = [
+                { view: ViewState.HOME, label: 'Home', icon: 'book-open' },
+                { view: ViewState.GALLERY, label: 'Gallery', icon: 'image' },
+                { view: ViewState.MARKETPLACE, label: 'Community Market', icon: 'shopping-bag' },
+                { view: ViewState.CONTACT, label: 'Find Us', icon: 'phone' },
+            ];
+
+            const handleNavClick = (view) => {
+                onChangeView(view);
+                setIsMenuOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            return (
+                <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md border-b border-stone-200">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between h-16 items-center">
+                            <div 
+                                className="flex-shrink-0 flex items-center cursor-pointer" 
+                                onClick={() => handleNavClick(ViewState.HOME)}
+                            >
+                                <span className="font-serif text-2xl font-bold tracking-tight text-thriller-black">
+                                    SERIAL <span className="text-thriller-red">THRILLERS</span>
+                                </span>
+                            </div>
+
+                            <div className="hidden md:flex space-x-1">
+                                {navItems.map((item) => (
+                                    <button
+                                        key={item.label}
+                                        onClick={() => handleNavClick(item.view)}
+                                        className={`flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                                            ${currentView === item.view 
+                                                ? 'text-white bg-thriller-red shadow-md' 
+                                                : 'text-stone-600 hover:text-thriller-red hover:bg-stone-100'
+                                            }`}
+                                    >
+                                        <i data-lucide={item.icon} className="w-4 h-4"></i>
+                                        <span>{item.label}</span>
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="flex items-center md:hidden">
+                                <button
+                                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                    className="p-2 rounded-md text-stone-600 hover:text-thriller-red hover:bg-stone-100 focus:outline-none transition-colors"
+                                >
+                                    <i data-lucide={isMenuOpen ? "x" : "menu"} className="w-6 h-6"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {isMenuOpen && (
+                        <div className="md:hidden bg-white border-t border-stone-100 absolute w-full shadow-lg animate-fade-in-down">
+                            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                                {navItems.map((item) => (
+                                    <button
+                                        key={item.label}
+                                        onClick={() => handleNavClick(item.view)}
+                                        className={`w-full flex items-center space-x-3 px-3 py-4 rounded-md text-base font-medium transition-colors
+                                            ${currentView === item.view 
+                                                ? 'text-thriller-red bg-stone-50' 
+                                                : 'text-stone-600 hover:text-thriller-red hover:bg-stone-50'
+                                            }`}
+                                    >
+                                        <i data-lucide={item.icon} className="w-5 h-5"></i>
+                                        <span>{item.label}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        // 2. Hero Component
+        const Hero = ({ onNavigate }) => {
+            return (
+                <div className="relative bg-stone-900 text-white overflow-hidden min-h-[70vh] flex items-center">
+                    <div className="absolute inset-0">
+                        <img
+                            className="w-full h-full object-cover opacity-40"
+                            src="https://images.unsplash.com/photo-1507842217153-e21f2010dc6f?q=80&w=2000&auto=format&fit=crop"
+                            alt="Vintage Bookstore Atmosphere"
+                            onError={(e) => {
+                                e.target.src = 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=2000';
+                            }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-stone-900 via-stone-900/80 to-transparent" />
+                    </div>
+
+                    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                        <div className="max-w-2xl">
+                            <h1 className="text-5xl md:text-7xl font-serif font-bold tracking-tight text-white mb-6 drop-shadow-2xl">
+                                Serial <span className="text-thriller-red">Thrillers</span>
+                            </h1>
+                            <p className="mt-4 text-xl md:text-2xl text-stone-200 font-light leading-relaxed">
+                                Emmarentia's home for rare books, vintage comics, and collectibles. 
+                                <span className="block mt-2 text-lg text-stone-400">Est. 2018 by Dave.</span>
+                            </p>
+                            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                                <button
+                                    onClick={() => onNavigate(ViewState.MARKETPLACE)}
+                                    className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-full text-white bg-thriller-red hover:bg-red-700 transition-all shadow-lg shadow-red-900/50 hover:shadow-red-900/70 hover:-translate-y-0.5"
+                                >
+                                    Browse Community Market
+                                    <i data-lucide="chevron-right" className="ml-2 w-5 h-5"></i>
+                                </button>
+                                <button
+                                    onClick={() => onNavigate(ViewState.CONTACT)}
+                                    className="inline-flex items-center justify-center px-8 py-4 border-2 border-stone-400 text-base font-bold rounded-full text-stone-200 bg-transparent hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm"
+                                >
+                                    Visit Store
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 3. Gallery Component (Fixed for Mobile)
+        const Gallery = () => {
+            const [loadedImages, setLoadedImages] = useState({});
+            useLucide();
+
+            const images = [
+                { src: 'https://i.imgur.com/eWGbb9i.jpeg', alt: 'Storefront Sign', caption: 'Our iconic sign on Thomas Bowler St.', aspect: 'aspect-[3/4]' },
+                { src: 'https://i.imgur.com/ILcYTz8.jpeg', alt: 'Batman Cowl', caption: 'Eclectic decor and collectibles.', aspect: 'aspect-square' },
+                { src: 'https://i.imgur.com/YpaTO7O.jpeg', alt: 'Dave at Counter', caption: 'Dave ready to help you find your next read.', aspect: 'aspect-[4/3]' },
+                { src: 'https://i.imgur.com/qldpNY6.jpeg', alt: 'Asterix Comics', caption: 'A vast collection of comics including Asterix.', aspect: 'aspect-[3/4]' },
+                { src: 'https://i.imgur.com/9I5cAbo.jpeg', alt: 'Mad Magazines', caption: 'Classic MAD magazines available.', aspect: 'aspect-square' },
+                { src: 'https://i.imgur.com/Qfs6gQg.jpeg', alt: 'Dr Seuss', caption: 'Books for all ages and interests.', aspect: 'aspect-[4/3]' },
+                { src: 'https://i.imgur.com/mzMIuQh.jpeg', alt: 'Batman Art', caption: 'Unique artwork and posters.', aspect: 'aspect-[3/4]' },
+                { src: 'https://i.imgur.com/Aestkur.jpeg', alt: 'Display Cabinet', caption: 'Rare figures and vintage items.', aspect: 'aspect-square' },
+            ];
+
+            const handleImageLoad = (index) => {
+                setLoadedImages(prev => ({ ...prev, [index]: true }));
+            };
+
+            return (
+                <div className="bg-paper py-16 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-serif font-bold text-thriller-black">Inside the Store</h2>
+                            <p className="mt-4 text-lg text-stone-600">A glimpse into our world of stories and treasures.</p>
+                        </div>
+
+                        {/* Responsive Grid: 1 col mobile, 2 col tablet, 3 col desktop */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {images.map((img, index) => (
+                                <div 
+                                    key={index} 
+                                    className="group relative rounded-xl overflow-hidden shadow-lg bg-white border border-stone-200 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+                                >
+                                    <div className={`relative w-full ${img.aspect} bg-stone-200 overflow-hidden`}>
+                                        {!loadedImages[index] && (
+                                            <div className="absolute inset-0 image-placeholder" />
+                                        )}
+                                        <img
+                                            src={img.src}
+                                            alt={img.alt}
+                                            loading="lazy"
+                                            onLoad={() => handleImageLoad(index)}
+                                            className={`w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110
+                                                ${loadedImages[index] ? 'opacity-100' : 'opacity-0'}`}
+                                            onError={(e) => {
+                                                e.target.src = `https://placehold.co/600x800/1a1a1c/b91c1c?text=${encodeURIComponent(img.alt)}`;
+                                                handleImageLoad(index);
+                                            }}
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                            <p className="text-white font-medium text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                                {img.caption}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 4. Marketplace Component
+        const Marketplace = () => {
+            const [items, setItems] = useState([]);
+            const [showForm, setShowForm] = useState(false);
+            const [isLoading, setIsLoading] = useState(false);
+            useLucide();
+
+            // Form State
+            const [formData, setFormData] = useState({
+                title: '',
+                description: '',
+                price: '',
+                contact: '',
+                seller: '',
+                imageFile: null
+            });
+            const [imagePreview, setImagePreview] = useState(null);
+
+            useEffect(() => {
+                const savedItems = localStorage.getItem('serial-thrillers-marketplace');
+                if (savedItems) {
+                    try {
+                        setItems(JSON.parse(savedItems));
+                    } catch (e) {
+                        console.error("Failed to load items", e);
+                    }
+                }
+            }, []);
+
+            const handleImageChange = (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    const file = e.target.files[0];
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert("Image is too large. Please choose an image under 2MB.");
+                        return;
+                    }
+                    setFormData({...formData, imageFile: file});
+                    
+                    const reader = new FileReader();
+                    reader.onloadend = () => setImagePreview(reader.result);
+                    reader.readAsDataURL(file);
+                }
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                setIsLoading(true);
+
+                const processSubmission = (base64Image) => {
+                    const newItem = {
+                        id: Date.now().toString(),
+                        title: formData.title,
+                        description: formData.description,
+                        price: formData.price,
+                        contactInfo: formData.contact,
+                        sellerName: formData.seller,
+                        imageUrl: base64Image,
+                        createdAt: Date.now()
+                    };
+
+                    const updatedItems = [newItem, ...items];
+                    setItems(updatedItems);
+                    localStorage.setItem('serial-thrillers-marketplace', JSON.stringify(updatedItems));
+                    
+                    setFormData({ title: '', description: '', price: '', contact: '', seller: '', imageFile: null });
+                    setImagePreview(null);
+                    setShowForm(false);
+                    setIsLoading(false);
+                };
+
+                if (formData.imageFile) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => processSubmission(reader.result);
+                    reader.readAsDataURL(formData.imageFile);
+                } else {
+                    processSubmission('https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80');
+                }
+            };
+
+            const handleDelete = (id) => {
+                if (confirm('Are you sure you want to remove this listing?')) {
+                    const updatedItems = items.filter(item => item.id !== id);
+                    setItems(updatedItems);
+                    localStorage.setItem('serial-thrillers-marketplace', JSON.stringify(updatedItems));
+                }
+            };
+
+            return (
+                <div className="bg-stone-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-5xl mx-auto">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+                            <div>
+                                <h2 className="text-3xl md:text-4xl font-serif font-bold text-thriller-black">Community Market</h2>
+                                <p className="text-stone-600 mt-2">
+                                    Got a collectible to sell? Post it here for the community.
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => setShowForm(!showForm)}
+                                className="flex items-center space-x-2 bg-thriller-red text-white px-6 py-3 rounded-full shadow-lg hover:bg-red-700 transition-all hover:shadow-xl hover:-translate-y-0.5"
+                            >
+                                <i data-lucide={showForm ? "x" : "plus"} className="w-5 h-5"></i>
+                                <span className="font-bold">{showForm ? 'Cancel' : 'Sell an Item'}</span>
+                            </button>
+                        </div>
+
+                        {showForm && (
+                            <div className="bg-white rounded-2xl shadow-xl p-6 mb-10 border border-stone-200 animate-fade-in-down">
+                                <h3 className="text-xl font-bold mb-6 text-stone-800 border-b pb-2">Create New Listing</h3>
+                                <form onSubmit={handleSubmit} className="space-y-5">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                        <div>
+                                            <label className="block text-sm font-semibold text-stone-700 mb-1">Item Title</label>
+                                            <input required type="text" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="block w-full rounded-lg border-stone-300 bg-stone-50 border p-3 focus:ring-2 focus:ring-thriller-red focus:border-transparent outline-none transition-all" placeholder="e.g. Vintage Batman Comic" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-semibold text-stone-700 mb-1">Price (R)</label>
+                                            <input required type="text" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} className="block w-full rounded-lg border-stone-300 bg-stone-50 border p-3 focus:ring-2 focus:ring-thriller-red focus:border-transparent outline-none transition-all" placeholder="e.g. R450" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label className="block text-sm font-semibold text-stone-700 mb-1">Description</label>
+                                        <textarea required value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} rows={3} className="block w-full rounded-lg border-stone-300 bg-stone-50 border p-3 focus:ring-2 focus:ring-thriller-red focus:border-transparent outline-none transition-all" placeholder="Describe condition, year, etc..." />
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                        <div>
+                                            <label className="block text-sm font-semibold text-stone-700 mb-1">Your Name</label>
+                                            <input required type="text" value={formData.seller} onChange={e => setFormData({...formData, seller: e.target.value})} className="block w-full rounded-lg border-stone-300 bg-stone-50 border p-3 focus:ring-2 focus:ring-thriller-red focus:border-transparent outline-none transition-all" placeholder="Jane Doe" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-semibold text-stone-700 mb-1">Contact Info</label>
+                                            <input required type="text" value={formData.contact} onChange={e => setFormData({...formData, contact: e.target.value})} className="block w-full rounded-lg border-stone-300 bg-stone-50 border p-3 focus:ring-2 focus:ring-thriller-red focus:border-transparent outline-none transition-all" placeholder="082 123 4567" />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-semibold text-stone-700 mb-2">Photo</label>
+                                        <div className="flex items-center gap-4">
+                                            <label className="cursor-pointer flex items-center justify-center px-4 py-3 border-2 border-dashed border-stone-300 rounded-lg text-stone-600 hover:border-thriller-red hover:text-thriller-red transition-colors bg-white">
+                                                <i data-lucide="camera" className="w-5 h-5 mr-2"></i>
+                                                <span>{formData.imageFile ? 'Change Photo' : 'Upload Photo'}</span>
+                                                <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                                            </label>
+                                            {imagePreview && (
+                                                <div className="h-16 w-16 rounded-lg overflow-hidden border border-stone-200">
+                                                    <img src={imagePreview} alt="Preview" className="h-full w-full object-cover" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        disabled={isLoading}
+                                        className="w-full bg-thriller-black text-white py-4 rounded-lg font-bold hover:bg-stone-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                                    >
+                                        {isLoading ? 'Posting...' : 'Post Item'}
+                                    </button>
+                                </form>
+                            </div>
+                        )}
+
+                        <div className="space-y-6">
+                            {items.length === 0 ? (
+                                <div className="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-stone-300">
+                                    <i data-lucide="tag" className="w-16 h-16 text-stone-300 mx-auto mb-4"></i>
+                                    <p className="text-stone-500 text-lg font-medium">No items listed yet. Be the first to sell!</p>
+                                </div>
+                            ) : (
+                                items.map((item) => (
+                                    <div key={item.id} className="bg-white rounded-2xl shadow-md overflow-hidden border border-stone-100 flex flex-col md:flex-row hover:shadow-xl transition-shadow">
+                                        <div className="md:w-2/5 h-64 md:h-auto relative bg-stone-200">
+                                            <img 
+                                                src={item.imageUrl} 
+                                                alt={item.title}
+                                                className="w-full h-full object-cover"
+                                                loading="lazy"
+                                                onError={(e) => {
+                                                    e.target.src = 'https://placehold.co/400x300/1a1a1c/b91c1c?text=No+Image';
+                                                }}
+                                            />
+                                            <div className="absolute top-3 left-3 bg-thriller-red text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                                                FOR SALE
+                                            </div>
+                                        </div>
+
+                                        <div className="p-6 md:w-3/5 flex flex-col justify-between">
+                                            <div>
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <h3 className="text-2xl font-bold text-thriller-black leading-tight">{item.title}</h3>
+                                                    <span className="text-xl font-bold text-thriller-red bg-red-50 px-3 py-1 rounded-lg whitespace-nowrap ml-2">{item.price}</span>
+                                                </div>
+                                                <p className="text-stone-400 text-xs mb-4 font-medium uppercase tracking-wide">
+                                                    Posted by {item.sellerName} • {new Date(item.createdAt).toLocaleDateString()}
+                                                </p>
+                                                <p className="text-stone-600 leading-relaxed">
+                                                    {item.description}
+                                                </p>
+                                            </div>
+
+                                            <div className="mt-6 pt-4 border-t border-stone-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+                                                <a 
+                                                    href={`tel:${item.contactInfo.replace(/\s/g,'')}`}
+                                                    className="flex items-center justify-center w-full sm:w-auto text-stone-700 bg-stone-100 px-6 py-3 rounded-lg hover:bg-stone-200 transition-colors font-mono font-bold"
+                                                >
+                                                    <i data-lucide="phone" className="w-4 h-4 mr-2 text-thriller-red"></i>
+                                                    {item.contactInfo}
+                                                </a>
+                                                <button 
+                                                    onClick={() => handleDelete(item.id)}
+                                                    className="text-stone-400 hover:text-red-500 text-sm flex items-center px-3 py-2 rounded hover:bg-red-50 transition-colors"
+                                                >
+                                                    <i data-lucide="trash-2" className="w-4 h-4 mr-1"></i>
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 5. Contact Component
+        const Contact = () => {
+            useLucide();
+            
+            return (
+                <div className="bg-white min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-4xl font-serif font-bold text-thriller-black">Visit Us</h2>
+                            <p className="mt-4 text-stone-600 text-lg">We love chatting about books. Drop by or send us a message.</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div className="space-y-6">
+                                <div className="bg-stone-50 p-8 rounded-2xl border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
+                                    <div className="flex items-center mb-4 text-thriller-red">
+                                        <i data-lucide="map-pin" className="w-6 h-6 mr-3"></i>
+                                        <h3 className="text-xl font-bold text-thriller-black">Location</h3>
+                                    </div>
+                                    <p className="text-stone-700 text-lg leading-relaxed pl-9">
+                                        Johannesburg Botanical Gardens<br/>
+                                        45 Thomas Bowler St<br/>
+                                        Emmarentia, Randburg, 2000
+                                    </p>
+                                    <a 
+                                        href="https://maps.app.goo.gl/cdUT5zpKuhiSUDB6A" 
+                                        target="_blank" 
+                                        rel="noreferrer"
+                                        className="mt-4 inline-block text-thriller-red font-bold hover:underline pl-9"
+                                    >
+                                        Get Directions →
+                                    </a>
+                                </div>
+
+                                <div className="bg-stone-50 p-8 rounded-2xl border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
+                                    <div className="flex items-center mb-4 text-thriller-red">
+                                        <i data-lucide="phone" className="w-6 h-6 mr-3"></i>
+                                        <h3 className="text-xl font-bold text-thriller-black">Contact Dave</h3>
+                                    </div>
+                                    <div className="pl-9 space-y-3">
+                                        <a href="tel:0813322109" className="text-xl text-stone-800 hover:text-thriller-red transition-colors block font-medium">
+                                            081 332 2109
+                                        </a>
+                                        <a 
+                                            href="https://wa.me/27813322109" 
+                                            target="_blank" 
+                                            rel="noreferrer"
+                                            className="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-full font-bold hover:bg-green-700 transition-all shadow-md hover:shadow-lg"
+                                        >
+                                            <i data-lucide="message-circle" className="w-5 h-5 mr-2"></i>
+                                            WhatsApp Chat
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div className="bg-stone-50 p-8 rounded-2xl border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
+                                    <div className="flex items-center mb-4 text-thriller-red">
+                                        <i data-lucide="clock" className="w-6 h-6 mr-3"></i>
+                                        <h3 className="text-xl font-bold text-thriller-black">Trading Hours</h3>
+                                    </div>
+                                    <ul className="pl-9 space-y-3 text-stone-700">
+                                        <li className="flex justify-between border-b border-stone-200 pb-2">
+                                            <span>Mon - Fri</span> 
+                                            <span className="font-bold">9:00 AM - 5:00 PM</span>
+                                        </li>
+                                        <li className="flex justify-between border-b border-stone-200 pb-2">
+                                            <span>Saturday</span> 
+                                            <span className="font-bold">9:00 AM - 2:00 PM</span>
+                                        </li>
+                                        <li className="flex justify-between text-stone-400">
+                                            <span>Sunday</span> 
+                                            <span>Closed</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="h-[500px] lg:h-auto rounded-2xl overflow-hidden shadow-lg border border-stone-200 bg-stone-100 relative">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.860166677934!2d28.00067607541427!3d-26.16874497709715!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950b7190000001%3A0x123456789abc!2s45%20Thomas%20Bowler%20St%2C%20Emmarentia%2C%20Randburg%2C%202195%2C%20South%20Africa!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" 
+                                    width="100%" 
+                                    height="100%" 
+                                    style={{border:0}} 
+                                    allowFullScreen={true} 
+                                    loading="lazy" 
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    title="Store Location"
+                                ></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 6. Intro Section Component
+        const IntroSection = () => (
+            <div className="bg-paper py-20 px-4 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-thriller-red to-transparent opacity-30"></div>
+                <div className="max-w-3xl mx-auto text-center relative z-10">
+                    <h2 className="text-3xl md:text-4xl font-serif font-bold mb-8 text-thriller-black">More Than Just Books</h2>
+                    <p className="text-lg md:text-xl text-stone-700 leading-relaxed font-light">
+                        Established in 2018, Serial Thrillers is a haven for those who love the smell of old paper, the thrill of a mystery, and the nostalgia of vintage comics. Whether you're hunting for a rare first edition, a classic vinyl record, or a quirky collectible, Dave's collection has something for everyone.
+                    </p>
+                    <div className="mt-10 flex justify-center">
+                        <div className="h-1 w-20 bg-thriller-red rounded-full"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        );
 
-    <section id="contact">
-        <h2>Find Dave</h2>
-        <p>Johannesberg Botanical Gardens, 45 Thomas Bowler St</p>
-        <p>Emmarentia, Randburg, 2000</p>
-        <p><strong>Cell:</strong> 081 332 2109</p>
-        <br>
-        <a href="https://maps.app.goo.gl/cdUT5zpKuhiSUDB6A" target="_blank" style="color: #ff4d4d;">View on Google Maps</a>
-    </section>
+        // --- Main App Component ---
+        const App = () => {
+            const [currentView, setCurrentView] = useState(ViewState.HOME);
 
-    <a href="https://wa.me/27813322109" class="whatsapp-float" target="_blank">
-        <svg viewBox="0 0 32 32" style="width:30px; fill:white;"><path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.48 2.025 7.787l-2.025 7.388 7.555-1.983c2.35 1.229 5.035 1.925 7.882 1.925 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.288c-2.43 0-4.722-0.627-6.726-1.724l-0.481-0.264-4.475 1.174 1.196-4.364-0.29-0.461c-1.189-1.89-1.815-4.1-1.815-6.424 0-6.736 5.481-12.217 12.217-12.217s12.217 5.481 12.217 12.217c0 6.736-5.481 12.217-12.217 12.217zM22.569 19.162c-0.359-0.18-2.126-1.049-2.454-1.168s-0.569-0.18-0.808 0.18c-0.239 0.359-0.927 1.168-1.136 1.408s-0.419 0.269-0.778 0.09c-0.359-0.18-1.516-0.558-2.887-1.781-1.066-0.951-1.786-2.126-1.996-2.485s-0.022-0.554 0.157-0.732c0.161-0.161 0.359-0.419 0.538-0.628s0.239-0.359 0.359-0.598c0.12-0.239 0.06-0.449-0.03-0.628s-0.808-1.946-1.107-2.664c-0.291-0.7-0.59-0.605-0.808-0.616s-0.478-0.012-0.737-0.012c-0.259 0-0.681 0.097-1.036 0.478s-1.357 1.328-1.357 3.235c0 1.907 1.387 3.748 1.581 4.017s2.73 4.167 6.613 5.842c0.924 0.399 1.645 0.638 2.207 0.817 0.928 0.295 1.773 0.253 2.441 0.153 0.745-0.111 2.291-0.937 2.615-1.841s0.324-1.676 0.227-1.841c-0.097-0.165-0.359-0.269-0.718-0.449z"></path></svg>
-    </a>
+            const renderContent = () => {
+                switch (currentView) {
+                    case ViewState.HOME:
+                        return (
+                            <>
+                                <Hero onNavigate={setCurrentView} />
+                                <IntroSection />
+                                <Gallery />
+                            </>
+                        );
+                    case ViewState.GALLERY:
+                        return <Gallery />;
+                    case ViewState.MARKETPLACE:
+                        return <Marketplace />;
+                    case ViewState.CONTACT:
+                        return <Contact />;
+                    default:
+                        return <Hero onNavigate={setCurrentView} />;
+                }
+            };
 
-    <script>
-        function addPost() {
-            const name = document.getElementById('itemName').value;
-            const desc = document.getElementById('itemDesc').value;
-            const price = document.getElementById('itemPrice').value;
-            const phone = document.getElementById('itemPhone').value;
-            const img = document.getElementById('itemImg').value || 'https://via.placeholder.com/150';
+            return (
+                <div className="min-h-screen flex flex-col font-sans text-stone-800 bg-paper">
+                    <Navbar currentView={currentView} onChangeView={setCurrentView} />
+                    
+                    <main className="flex-grow">
+                        {renderContent()}
+                    </main>
 
-            if(!name || !price || !phone) {
-                alert("Please fill in Name, Price, and Phone Number!");
-                return;
-            }
-
-            const feed = document.getElementById('feed');
-            const newPost = document.createElement('div');
-            newPost.className = 'blog-post';
-            
-            newPost.innerHTML = `
-                <img src="${img}" class="post-img" alt="Item">
-                <div class="post-content">
-                    <h4>${name}</h4>
-                    <p>${desc}</p>
-                    <span class="price">Price: R${price}</span>
-                    <span class="contact">Seller Contact: ${phone}</span>
+                    <footer className="bg-thriller-black text-stone-400 py-12 border-t-4 border-thriller-red">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+                            <div className="text-center md:text-left">
+                                <span className="font-serif text-2xl font-bold text-white tracking-tight">
+                                    SERIAL <span className="text-thriller-red">THRILLERS</span>
+                                </span>
+                                <p className="text-sm mt-2 font-medium">Est. 2018 • Emmarentia, Johannesburg</p>
+                            </div>
+                            <div className="text-center md:text-right text-sm">
+                                <p>&copy; {new Date().getFullYear()} Serial Thrillers Bookstore.</p>
+                                <p className="mt-1 text-stone-600">All rights reserved.</p>
+                            </div>
+                        </div>
+                    </footer>
                 </div>
-            `;
+            );
+        };
 
-            feed.prepend(newPost);
-
-            // Clear form
-            document.getElementById('itemName').value = '';
-            document.getElementById('itemDesc').value = '';
-            document.getElementById('itemPrice').value = '';
-            document.getElementById('itemPhone').value = '';
-            document.getElementById('itemImg').value = '';
-            
-            alert("Success! Your item is now listed below.");
-        }
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
