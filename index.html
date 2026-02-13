@@ -2,1245 +2,266 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Serial Thriller Bookstore | Rare Books & Collectibles</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serial Thriller Bookstore | Dave's Collectibles</title>
+    <!-- Google Fonts for a classic bookstore feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --cream: #FAF7F2;
-            --paper: #F5F0E8;
-            --ink: #2C241B;
-            --gold: #C9A961;
-            --rust: #8B4513;
-            --shadow: rgba(44, 36, 27, 0.1);
+            --primary-color: #1a1a1a;
+            --accent-color: #8b0000; /* Thriller Red */
+            --text-light: #f4f4f4;
+            --text-dark: #333;
+            --cream: #fffaf0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: var(--cream);
-            color: var(--ink);
+            color: var(--text-dark);
             line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 1000;
-        }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
+        /* Navigation */
         nav {
-            position: fixed;
+            background: var(--primary-color);
+            padding: 1rem;
+            position: sticky;
             top: 0;
-            width: 100%;
-            padding: 1rem 5%;
-            background: rgba(250, 247, 242, 0.98);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 100;
-            border-bottom: 1px solid var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        nav.scrolled {
-            padding: 0.75rem 5%;
-            box-shadow: 0 2px 20px var(--shadow);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
+            z-index: 1000;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: space-around;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        nav a {
+            color: white;
             text-decoration: none;
-        }
-
-        .logo img {
-            height: 40px;
-            width: 40px;
-            border-radius: 4px;
-            box-shadow: 0 2px 10px var(--shadow);
-            object-fit: cover;
-            background: var(--paper);
-        }
-
-        .logo-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--ink);
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--ink);
-            font-weight: 500;
             font-size: 0.9rem;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gold);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0.5rem;
-        }
-
-        .mobile-menu span {
-            width: 24px;
-            height: 2px;
-            background: var(--ink);
-            display: block;
-        }
-
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 100px 5% 60px;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-            width: 100%;
-        }
-
-        .hero-text {
-            animation: fadeInUp 0.8s ease;
-        }
-
-        .hero-tag {
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            background: var(--paper);
-            border: 1px solid var(--gold);
-            color: var(--rust);
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin-bottom: 1.25rem;
-            border-radius: 2px;
+            letter-spacing: 1px;
         }
 
-        .hero h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            line-height: 1.1;
-            margin-bottom: 1.25rem;
-            color: var(--ink);
-        }
-
-        .hero h1 span {
-            color: var(--gold);
-            font-style: italic;
-        }
-
-        .hero p {
-            font-size: 1rem;
-            color: #5a5045;
-            margin-bottom: 1.75rem;
-            max-width: 480px;
-            line-height: 1.7;
-        }
-
-        .cta-group {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 0.875rem 1.5rem;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            border-radius: 2px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            border: 2px solid transparent;
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        .btn-primary {
-            background: var(--ink);
-            color: var(--cream);
-            border-color: var(--ink);
-        }
-
-        .btn-primary:hover {
-            background: transparent;
-            color: var(--ink);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--ink);
-            border-color: var(--ink);
-        }
-
-        .btn-secondary:hover {
-            background: var(--ink);
-            color: var(--cream);
-        }
-
-        .hero-image {
-            position: relative;
-            animation: fadeIn 1s ease;
-            width: 100%;
-        }
-
-        .hero-image img {
-            width: 100%;
-            height: auto;
-            max-height: 70vh;
-            object-fit: cover;
-            border-radius: 4px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            display: block;
-            background: var(--paper);
-        }
-
-        .floating-card {
-            position: absolute;
-            bottom: -15px;
-            left: -20px;
-            background: white;
-            padding: 1.25rem;
-            border-radius: 4px;
-            box-shadow: 0 10px 40px var(--shadow);
-            animation: float 6s ease-in-out infinite;
-            max-width: 200px;
-        }
-
-        .floating-card p {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
-            font-style: italic;
-            color: var(--rust);
-            margin: 0;
-            line-height: 1.4;
-        }
-
-        .featured {
-            padding: 80px 5%;
-            background: var(--paper);
-        }
-
-        .section-header {
+        /* Hero Section */
+        header {
             text-align: center;
-            margin-bottom: 3rem;
+            padding: 60px 20px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://i.imgur.com/mzMIuQh.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: white;
         }
 
-        .section-header h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 0.75rem;
+        .logo-main {
+            max-width: 250px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-color);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
         }
 
-        .section-header p {
-            color: #5a5045;
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 0.95rem;
+        .logo-main:hover { transform: scale(1.05); }
+
+        /* Gallery Section */
+        .section-title {
+            text-align: center;
+            margin: 40px 0;
+            font-size: 2.5rem;
+            color: var(--primary-color);
         }
 
-        .books-grid {
-            max-width: 1400px;
-            margin: 0 auto;
+        .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .book-card {
-            background: white;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px var(--shadow);
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .book-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-        }
-
-        .book-image-container {
-            width: 100%;
-            height: 320px;
-            overflow: hidden;
-            background: var(--paper);
-            position: relative;
-        }
-
-        .book-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .book-image.loaded {
-            opacity: 1;
-        }
-
-        .book-image-error {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--paper);
-            color: var(--rust);
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .book-info {
-            padding: 1.25rem;
-        }
-
-        .book-category {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--gold);
-            font-weight: 600;
-            margin-bottom: 0.4rem;
-        }
-
-        .book-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.25rem;
-            color: var(--ink);
-            line-height: 1.3;
-        }
-
-        .book-badge {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background: var(--gold);
-            color: white;
-            padding: 0.2rem 0.6rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-            border-radius: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            z-index: 2;
-        }
-
-        .community {
-            padding: 80px 5%;
-            background: var(--cream);
-        }
-
-        .community-grid {
-            max-width: 1400px;
+            gap: 15px;
+            padding: 20px;
+            max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: start;
         }
 
-        .community-info h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.75rem, 3vw, 2.5rem);
-            margin-bottom: 1.25rem;
-        }
-
-        .community-info p {
-            margin-bottom: 1.5rem;
-            color: #5a5045;
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        .feature-list {
-            list-style: none;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-list li {
-            padding: 0.6rem 0;
-            padding-left: 1.75rem;
-            position: relative;
-            color: var(--ink);
-            font-size: 0.95rem;
-        }
-
-        .feature-list li::before {
-            content: '✦';
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-        }
-
-        .post-form {
-            background: white;
-            padding: 2rem;
-            border-radius: 4px;
-            box-shadow: 0 10px 40px var(--shadow);
-            position: sticky;
-            top: 80px;
-        }
-
-        .post-form h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1.25rem;
-            color: var(--ink);
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.4rem;
-            font-weight: 500;
-            font-size: 0.85rem;
-            color: var(--ink);
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+        .gallery img {
             width: 100%;
-            padding: 0.625rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            background: var(--cream);
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .image-upload {
-            border: 2px dashed var(--gold);
-            padding: 1.5rem;
-            text-align: center;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: var(--cream);
-        }
-
-        .image-upload:hover {
-            background: var(--paper);
-        }
-
-        .image-upload input {
-            display: none;
-        }
-
-        .upload-preview {
-            max-width: 100%;
-            max-height: 150px;
-            margin-top: 0.75rem;
-            border-radius: 4px;
-            display: none;
-        }
-
-        .listings-feed {
-            margin-top: 3rem;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .listings-feed h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .listing-card {
-            background: white;
-            border-radius: 4px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 20px var(--shadow);
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 1.5rem;
-            animation: slideIn 0.5s ease;
-        }
-
-        .listing-image-container {
-            width: 100%;
-            height: 180px;
-            overflow: hidden;
-            border-radius: 4px;
-            background: var(--paper);
-            position: relative;
-        }
-
-        .listing-image {
-            width: 100%;
-            height: 100%;
+            height: 300px;
             object-fit: cover;
-            display: block;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            cursor: pointer;
         }
 
-        .listing-content h4 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.35rem;
-            margin-bottom: 0.4rem;
+        .gallery img:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+
+        /* Marketplace Section */
+        .marketplace {
+            background: #eee;
+            padding: 50px 20px;
         }
 
-        .listing-meta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 0.75rem;
-            font-size: 0.85rem;
-            color: #5a5045;
-            flex-wrap: wrap;
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        .listing-price {
-            font-size: 1.35rem;
-            color: var(--rust);
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-        }
-
-        .listing-content p {
-            color: #5a5045;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .contact-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1.25rem;
-            background: #25D366;
+        .chat-header {
+            background: var(--primary-color);
             color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .blog-post {
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 20px;
+        }
+
+        .post-img { width: 100px; height: 100px; border-radius: 10px; object-fit: cover; }
+
+        .post-content h4 { color: var(--accent-color); margin-bottom: 5px; }
+
+        .btn-post {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px;
+            background: var(--accent-color);
+            color: white;
+            text-align: center;
             text-decoration: none;
-            border-radius: 4px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: transform 0.3s;
-            border: none;
-            cursor: pointer;
+            border-radius: 25px;
+            font-weight: bold;
         }
 
-        .contact-btn:hover {
-            transform: translateY(-2px);
+        /* Contact Section */
+        #contact {
+            padding: 50px 20px;
+            text-align: center;
+            background: var(--primary-color);
+            color: white;
         }
 
-        .about {
-            padding: 80px 5%;
-            background: var(--ink);
-            color: var(--cream);
-            position: relative;
-            overflow: hidden;
-        }
+        .contact-info { margin: 20px 0; font-size: 1.1rem; }
 
-        .about-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .about-text h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(1.75rem, 3vw, 2.5rem);
-            margin-bottom: 1.25rem;
-        }
-
-        .about-text p {
-            margin-bottom: 1.25rem;
-            opacity: 0.9;
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-
-        .contact-info {
-            margin-top: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.875rem;
-            margin-bottom: 0.875rem;
-            padding: 0.875rem;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
-            transition: background 0.3s;
-        }
-
-        .contact-item:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .contact-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--gold);
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .contact-item div {
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .map-container {
-            background: white;
-            padding: 0.75rem;
-            border-radius: 4px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            transform: rotate(2deg);
-            transition: transform 0.3s;
-        }
-
-        .map-container:hover {
-            transform: rotate(0deg) scale(1.02);
-        }
-
-        .map-container iframe {
-            width: 100%;
-            height: 350px;
-            border: none;
-            border-radius: 2px;
-            filter: grayscale(20%) sepia(10%);
-        }
-
-        footer {
-            background: #1a1612;
-            color: var(--cream);
-            padding: 2.5rem 5%;
-            text-align: center;
-            border-top: 1px solid rgba(201, 169, 97, 0.2);
-        }
-
-        .footer-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.75rem;
-            margin-bottom: 0.75rem;
-            color: var(--gold);
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: var(--cream);
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
             text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-            font-size: 0.9rem;
+            z-index: 1000;
         }
 
-        .footer-links a:hover {
-            opacity: 1;
-            color: var(--gold);
-        }
+        footer { text-align: center; padding: 20px; font-size: 0.8rem; background: #111; color: #777; }
 
-        footer p {
-            font-size: 0.85rem;
-            opacity: 0.6;
-            line-height: 1.6;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-15px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @media (max-width: 968px) {
-            .hero-content,
-            .community-grid,
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .hero {
-                padding-top: 80px;
-                min-height: auto;
-                padding-bottom: 40px;
-            }
-
-            .hero-text {
-                order: 2;
-                text-align: center;
-            }
-
-            .hero-text p {
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .cta-group {
-                justify-content: center;
-            }
-
-            .hero-image {
-                order: 1;
-                max-width: 100%;
-            }
-
-            .hero-image img {
-                max-height: 50vh;
-            }
-
-            .floating-card {
-                display: none;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--cream);
-                flex-direction: column;
-                padding: 1.5rem;
-                gap: 1.25rem;
-                box-shadow: 0 10px 30px var(--shadow);
-                margin: 0;
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .mobile-menu {
-                display: flex;
-            }
-
-            .books-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-
-            .book-image-container {
-                height: 220px;
-            }
-
-            .book-title {
-                font-size: 1.1rem;
-            }
-
-            .listing-card {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .listing-image-container {
-                height: 200px;
-            }
-
-            .post-form {
-                position: static;
-            }
-
-            .map-container iframe {
-                height: 250px;
-            }
-
-            .map-container {
-                transform: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .books-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .book-image-container {
-                height: 280px;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .cta-group {
-                flex-direction: column;
-            }
-        }
-
-        .img-skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .section-title { font-size: 1.8rem; }
+            .blog-post { flex-direction: column; }
+            .post-img { width: 100%; height: 200px; }
         }
     </style>
 </head>
 <body>
-    <nav id="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="https://i.imgur.com/eWGbb9i.jpeg" alt="Serial Thriller Bookstore Logo" id="logoImg" crossorigin="anonymous">
-                <span class="logo-text">Serial Thriller</span>
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#collection">Collection</a></li>
-                <li><a href="#community">Community</a></li>
-                <li><a href="#about">Visit Us</a></li>
-            </ul>
-            <button class="mobile-menu" onclick="toggleMenu()" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#classics">Classics</a>
+        <a href="#marketplace">Marketplace</a>
+        <a href="#contact">Contact</a>
     </nav>
 
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <div class="hero-text">
-                <span class="hero-tag">Est. 2018</span>
-                <h1>Where Every Book <span>Tells a Story</span></h1>
-                <p>Welcome to Serial Thriller Bookstore, Johannesburg's hidden gem for rare collectibles, timeless classics, and literary treasures. Located in the heart of Emmarentia.</p>
-                <div class="cta-group">
-                    <a href="#collection" class="btn btn-primary">Explore Collection</a>
-                    <a href="https://wa.me/27813322109" class="btn btn-secondary" target="_blank">Chat on WhatsApp</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="https://i.imgur.com/eWGbb9i.jpeg" alt="Serial Thriller Bookstore Interior" id="heroImg" crossorigin="anonymous">
-                <div class="floating-card">
-                    <p>"A book is a dream you hold in your hands"</p>
-                </div>
-            </div>
+    <header id="home">
+        <img src="https://i.imgur.com/eWGbb9i.jpeg" alt="Serial Thriller Logo" class="logo-main">
+        <h1>Serial Thriller Bookstore</h1>
+        <p>Est. 2018 | Curating Classics & Rare Collectibles</p>
+    </header>
+
+    <section id="classics">
+        <h2 class="section-title">Classics & Collectibles</h2>
+        <div class="gallery">
+            <img src="https://i.imgur.com/ILcYTz8.jpeg" alt="Store Item">
+            <img src="https://i.imgur.com/9I5cAbo.jpeg" alt="Store Item">
+            <img src="https://i.imgur.com/Qfs6gQg.jpeg" alt="Store Item">
+            <img src="https://i.imgur.com/mzMIuQh.jpeg" alt="Store Item">
+            <img src="https://i.imgur.com/qldpNY6.jpeg" alt="Store Item">
+            <img src="https://i.imgur.com/Aestkur.jpeg" alt="Store Item">
+            <img src="https://i.imgur.com/YpaTO7O.jpeg" alt="Store Item">
+            <img src="https://i.imgur.com/7ykae84.jpeg" alt="Store Item">
         </div>
     </section>
 
-    <section class="featured" id="collection">
-        <div class="section-header">
-            <h2>Curated Collection</h2>
-            <p>Handpicked rare editions, first prints, and beloved classics from Dave's personal collection</p>
-        </div>
-        <div class="books-grid" id="booksGrid"></div>
-    </section>
-
-    <section class="community" id="community">
-        <div class="community-grid">
-            <div class="community-info">
-                <h2>Community Marketplace</h2>
-                <p>Have collectibles or secondhand books to sell? Serial Thriller isn't just a store—it's a community hub. List your items here and connect with fellow collectors.</p>
-                <ul class="feature-list">
-                    <li>Post your collectibles for free</li>
-                    <li>Connect directly with buyers via WhatsApp</li>
-                    <li>Reach passionate book lovers</li>
-                    <li>No commission fees - keep 100% of your sale</li>
-                </ul>
-                <p style="font-style: italic; color: var(--rust);">"One person's dusty attic find is another's treasured centerpiece."</p>
-            </div>
-            <div class="post-form">
-                <h3>List Your Item</h3>
-                <form id="listingForm" onsubmit="handleSubmit(event)">
-                    <div class="form-group">
-                        <label>Item Title</label>
-                        <input type="text" id="itemTitle" placeholder="e.g., Vintage 1960s Photography Book" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        <select id="itemCategory" required>
-                            <option value="">Select category...</option>
-                            <option value="collectibles">Collectibles</option>
-                            <option value="classics">Classics</option>
-                            <option value="secondhand">Secondhand</option>
-                            <option value="rare">Rare Editions</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Price (ZAR)</label>
-                        <input type="number" id="itemPrice" placeholder="e.g., 500" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea id="itemDesc" placeholder="Describe your item, condition, history..." required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Your WhatsApp Number</label>
-                        <input type="tel" id="sellerContact" placeholder="e.g., 081 332 2109" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Item Image</label>
-                        <div class="image-upload" onclick="document.getElementById('itemImage').click()">
-                            <input type="file" id="itemImage" accept="image/*" onchange="previewImage(event)">
-                            <span>📷 Click to upload photo</span>
-                            <img id="imagePreview" class="upload-preview" alt="Preview">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Post Listing</button>
-                </form>
-            </div>
-        </div>
-        <div class="listings-feed" id="listingsContainer">
-            <h3>Recent Community Listings</h3>
-        </div>
-    </section>
-
-    <section class="about" id="about">
-        <div class="about-content">
-            <div class="about-text">
-                <h2>Visit the Nook</h2>
-                <p>Serial Thriller Bookstore has been a labor of love since 2018. Nestled in the Johannesburg Botanical Gardens area, our store is more than just shelves of books—it's a sanctuary for the written word.</p>
-                <p>Whether you're hunting for a specific first edition, browsing for your next great read, or looking to pass on your own collection to a new home, Dave's doors are always open.</p>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <div>
-                            <strong>Location</strong><br>
-                            Johannesburg Botanical Gardens<br>
-                            45 Thomas Bowler St, Emmarentia<br>
-                            Randburg, 2000
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📱</div>
-                        <div>
-                            <strong>Contact</strong><br>
-                            081 332 2109<br>
-                            <span style="font-size: 0.85rem; opacity: 0.8;">Available on WhatsApp</span>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">🕐</div>
-                        <div>
-                            <strong>Hours</strong><br>
-                            Mon-Sat: 9:00 - 17:00<br>
-                            Sunday: 10:00 - 15:00
-                        </div>
-                    </div>
+    <section id="marketplace" class="marketplace">
+        <h2 class="section-title">Community Marketplace</h2>
+        <p style="text-align:center; margin-bottom: 20px;">Secondhand items & collectibles from our community.</p>
+        
+        <div class="chat-container">
+            <div class="chat-header">Live Feed</div>
+            
+            <!-- Sample Post 1 -->
+            <div class="blog-post">
+                <img src="https://i.imgur.com/9I5cAbo.jpeg" class="post-img" alt="Item">
+                <div class="post-content">
+                    <h4>First Edition: The Big Sleep</h4>
+                    <p>Beautiful condition, hardback. A must-have for thriller fans.</p>
+                    <p><strong>Price:</strong> R450</p>
+                    <small>Contact: Sarah - 072 445 1123</small>
                 </div>
-                <a href="https://wa.me/27813322109" class="btn btn-primary" style="margin-top: 1rem;" target="_blank">Message Dave on WhatsApp</a>
             </div>
-            <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3582.1!2d28.0123!3d-26.1234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950c0!2sJohannesburg%20Botanical%20Gardens!5e0!3m2!1sen!2sza" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                <p style="text-align: center; margin-top: 1rem; font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--ink); font-size: 0.9rem;">Find us near the Rose Garden entrance</p>
+
+            <!-- Sample Post 2 -->
+            <div class="blog-post">
+                <img src="https://i.imgur.com/mzMIuQh.jpeg" class="post-img" alt="Item">
+                <div class="post-content">
+                    <h4>Vintage Brass Bookends</h4>
+                    <p>Heavy, antique style. Perfect for a classic library look.</p>
+                    <p><strong>Price:</strong> R300</p>
+                    <small>Contact: Mike - 083 221 9988</small>
+                </div>
             </div>
+
+            <a href="https://wa.me/27813322109?text=Hi%20Dave!%20I'd%20like%20to%20list%20an%20item%20on%20Serial%20Thriller.%20[Item%20Name,%20Price,%20Contact]" class="btn-post">Post Your Item</a>
         </div>
     </section>
+
+    <section id="contact">
+        <h2>Visit Dave at the Shop</h2>
+        <div class="contact-info">
+            <p>📍 Johannesberg Botanical Gardens</p>
+            <p>45 Thomas Bowler St, Emmarentia, Randburg, 2000</p>
+            <p>📞 081 332 2109</p>
+            <br>
+            <a href="https://maps.app.goo.gl/cdUT5zpKuhiSUDB6A" target="_blank" style="color: var(--accent-color); font-weight: bold;">Open in Google Maps</a>
+        </div>
+    </section>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/27813322109" class="whatsapp-float" target="_blank">
+        <svg viewBox="0 0 32 32" style="width:35px; height:35px; fill:white; margin-top:12px">
+            <path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.48 2.025 7.787l-2.025 7.388 7.555-1.983c2.35 1.229 5.035 1.925 7.882 1.925 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.288c-2.43 0-4.722-0.627-6.726-1.724l-0.481-0.264-4.475 1.174 1.196-4.364-0.29-0.461c-1.189-1.89-1.815-4.1-1.815-6.424 0-6.736 5.481-12.217 12.217-12.217s12.217 5.481 12.217 12.217c0 6.736-5.481 12.217-12.217 12.217zM22.569 19.162c-0.359-0.18-2.126-1.049-2.454-1.168s-0.569-0.18-0.808 0.18c-0.239 0.359-0.927 1.168-1.136 1.408s-0.419 0.269-0.778 0.09c-0.359-0.18-1.516-0.558-2.887-1.781-1.066-0.951-1.786-2.126-1.996-2.485s-0.022-0.554 0.157-0.732c0.161-0.161 0.359-0.419 0.538-0.628s0.239-0.359 0.359-0.598c0.12-0.239 0.06-0.449-0.03-0.628s-0.808-1.946-1.107-2.664c-0.291-0.7-0.59-0.605-0.808-0.616s-0.478-0.012-0.737-0.012c-0.259 0-0.681 0.097-1.036 0.478s-1.357 1.328-1.357 3.235c0 1.907 1.387 3.748 1.581 4.017s2.73 4.167 6.613 5.842c0.924 0.399 1.645 0.638 2.207 0.817 0.928 0.295 1.773 0.253 2.441 0.153 0.745-0.111 2.291-0.937 2.615-1.841s0.324-1.676 0.227-1.841c-0.097-0.165-0.359-0.269-0.718-0.449z"></path>
+        </svg>
+    </a>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-logo">Serial Thriller Bookstore</div>
-            <div class="footer-links">
-                <a href="#home">Home</a>
-                <a href="#collection">Collection</a>
-                <a href="#community">Community</a>
-                <a href="https://wa.me/27813322109">WhatsApp</a>
-            </div>
-            <p>© 2026 Serial Thriller Bookstore. All rights reserved.<br>45 Thomas Bowler St, Emmarentia, Randburg, 2000</p>
-        </div>
+        <p>&copy; 2026 Serial Thriller Bookstore. All rights reserved.</p>
     </footer>
 
-    <script>
-        // Image configuration with your new Imgur URLs
-        const images = {
-            logo: 'https://i.imgur.com/eWGbb9i.jpeg',
-            hero: 'https://i.imgur.com/eWGbb9i.jpeg',
-            books: [
-                { url: 'https://i.imgur.com/ILcYTz8.jpeg', category: 'Vinyl & Comics', title: 'Classic Records & Comics', badge: 'Rare' },
-                { url: 'https://i.imgur.com/9I5cAbo.jpeg', category: 'Collectibles', title: 'Action Figures Display', badge: null },
-                { url: 'https://i.imgur.com/Qfs6gQg.jpeg', category: 'Comics', title: 'Tintin Collection', badge: 'New' },
-                { url: 'https://i.imgur.com/mzMIuQh.jpeg', category: 'Classics', title: 'Asterix & Obelix', badge: null },
-                { url: 'https://i.imgur.com/qldpNY6.jpeg', category: 'Superhero', title: 'Batman Comics Wall', badge: null },
-                { url: 'https://i.imgur.com/Aestkur.jpeg', category: 'Featured', title: 'Curated Shelves', badge: 'Featured' },
-                { url: 'https://i.imgur.com/YpaTO7O.jpeg', category: 'Interior', title: 'The Book Nook', badge: null }
-            ]
-        };
-
-        // Render books with proper loading handling
-        function renderBooks() {
-            const grid = document.getElementById('booksGrid');
-            
-            images.books.forEach((book, index) => {
-                const card = document.createElement('div');
-                card.className = 'book-card';
-                
-                const badgeHtml = book.badge ? `<span class="book-badge">${book.badge}</span>` : '';
-                
-                card.innerHTML = `
-                    ${badgeHtml}
-                    <div class="book-image-container img-skeleton" id="container-${index}">
-                        <img 
-                            src="${book.url}" 
-                            alt="${book.title}" 
-                            class="book-image" 
-                            id="img-${index}"
-                            crossorigin="anonymous"
-                            onload="handleImageLoad(${index})"
-                            onerror="handleImageError(${index}, '${book.title}')"
-                        >
-                    </div>
-                    <div class="book-info">
-                        <div class="book-category">${book.category}</div>
-                        <h3 class="book-title">${book.title}</h3>
-                    </div>
-                `;
-                
-                grid.appendChild(card);
-            });
-        }
-
-        function handleImageLoad(index) {
-            const img = document.getElementById(`img-${index}`);
-            const container = document.getElementById(`container-${index}`);
-            if (img) {
-                img.classList.add('loaded');
-            }
-            if (container) {
-                container.classList.remove('img-skeleton');
-            }
-        }
-
-        function handleImageError(index, title) {
-            const container = document.getElementById(`container-${index}`);
-            if (container) {
-                container.innerHTML = `
-                    <div class="book-image-error">
-                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📚</div>
-                        <div style="font-weight: 600;">${title}</div>
-                        <div style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.8;">Image loading...</div>
-                    </div>
-                `;
-                container.classList.remove('img-skeleton');
-            }
-        }
-
-        // Initialize
-        window.addEventListener('DOMContentLoaded', () => {
-            renderBooks();
-            
-            // Load existing listings
-            const listings = JSON.parse(localStorage.getItem('bookListings') || '[]');
-            listings.forEach(listing => displayListing(listing));
-        });
-
-        // Navbar scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    document.getElementById('navLinks').classList.remove('active');
-                }
-            });
-        });
-
-        function toggleMenu() {
-            document.getElementById('navLinks').classList.toggle('active');
-        }
-
-        function previewImage(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('imagePreview');
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function handleSubmit(e) {
-            e.preventDefault();
-            const title = document.getElementById('itemTitle').value;
-            const category = document.getElementById('itemCategory').value;
-            const price = document.getElementById('itemPrice').value;
-            const desc = document.getElementById('itemDesc').value;
-            const contact = document.getElementById('sellerContact').value;
-            const imagePreview = document.getElementById('imagePreview');
-            
-            const listing = {
-                id: Date.now(),
-                title,
-                category,
-                price,
-                desc,
-                contact,
-                image: imagePreview.style.display === 'block' ? imagePreview.src : images.logo,
-                date: new Date().toLocaleDateString()
-            };
-
-            let listings = JSON.parse(localStorage.getItem('bookListings') || '[]');
-            listings.unshift(listing);
-            localStorage.setItem('bookListings', JSON.stringify(listings));
-
-            displayListing(listing);
-            document.getElementById('listingForm').reset();
-            imagePreview.style.display = 'none';
-            
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.innerHTML = '✓ Posted!';
-            btn.style.background = '#25D366';
-            setTimeout(() => {
-                btn.innerHTML = 'Post Listing';
-                btn.style.background = '';
-            }, 2000);
-        }
-
-        function displayListing(listing) {
-            const container = document.getElementById('listingsContainer');
-            const card = document.createElement('div');
-            card.className = 'listing-card';
-            card.innerHTML = `
-                <div class="listing-image-container">
-                    <img src="${listing.image}" alt="${listing.title}" class="listing-image" onerror="this.src='${images.logo}'">
-                </div>
-                <div class="listing-content">
-                    <span style="color: var(--gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">${listing.category}</span>
-                    <h4>${listing.title}</h4>
-                    <div class="listing-meta">
-                        <span>📅 ${listing.date}</span>
-                        <span>📍 Emmarentia</span>
-                    </div>
-                    <div class="listing-price">R ${listing.price}</div>
-                    <p>${listing.desc}</p>
-                    <a href="https://wa.me/27${listing.contact.replace(/\D/g, '')}" class="contact-btn" target="_blank">
-                        <span>💬</span> Contact on WhatsApp
-                    </a>
-                </div>
-            `;
-            const heading = container.querySelector('h3');
-            heading.after(card);
-        }
-    </script>
 </body>
 </html>
